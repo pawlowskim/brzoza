@@ -33,13 +33,44 @@
         mysql_query("update messages set message = '".$message."' where id = '".$id."'");
       }
 
-      public function addPrivilege($messageId, $username, $owner){
+      public function getMessagesToEdit($owner, $ownerId) {
+        $messages = array();
+        $myMessages = mysql_query("select * from messages where owner = '".$owner."'");
+        while($row = mysql_fetch_assoc($myMessages)){
+            $messages[] = array("id" => $row["id"], "owner" => $row["owner"], "message" => $row["message"]);
+        }
+
+        $sharedMessagesIds = mysql_query("select messageId from privileges where userId = '".$ownerId."'");
+        $ids = array();
+        while($row = mysql_fetch_assoc($sharedMessagesIds))
+            $ids[] = $row["messageId"];
+
+        $sharedMessages = mysql_query("select * from messages where id in(".implode(',', array_map('intval', $ids)).")");
+        if($sharedMessages != null){
+            while($row = mysql_fetch_assoc($sharedMessages)){
+                $messages[] = array("id" => $row["id"], "owner" => $row["owner"], "message" => $row["message"]);
+            }
+        }
+
+        return $messages;
+      }
+
+    public function addPrivilege($messageId, $username, $owner){
         $userId = mysql_fetch_assoc(mysql_query("select id from users where name = '".$username."'"))["id"];
         $ownerId = mysql_fetch_assoc(mysql_query("select id from users where name = '".$owner."'"))["id"];
         $isOwner = mysql_fetch_assoc(mysql_query("select id from messages where owner = '".$owner."' and id = '".$messageId."'"))["id"];
         if($isOwner == null)
             return;
         mysql_query("insert into privileges (messageId, ownerId, userId) values ('".$messageId."', '".$ownerId."', '".$userId."')");
-      }
+    }
+
+      public function revokePrivilege($messageId, $username, $owner){
+          $userId = mysql_fetch_assoc(mysql_query("select id from users where name = '".$username."'"))["id"];
+          $ownerId = mysql_fetch_assoc(mysql_query("select id from users where name = '".$owner."'"))["id"];
+          $isOwner = mysql_fetch_assoc(mysql_query("select id from messages where owner = '".$owner."' and id = '".$messageId."'"))["id"];
+          if($isOwner == null)
+              return;
+          mysql_query("delete from privileges where userId = '".$userId."' and messageId = '".$messageId."' and ownerId = '".$ownerId."'");
+        }
     }
 ?>

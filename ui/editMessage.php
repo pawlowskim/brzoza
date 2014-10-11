@@ -5,10 +5,23 @@
     }
 
     if(!isset($_GET["messageId"])) { ?>
-        <form action="backend/api.php?action=edit" method="post">
-            <input type="text" name="messageId" placeholder="MessageId" />
-            <input type="submit" name="submit"/>
-        </form>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Autor</th>
+                <th>Treść</th>
+                <th>Akcja</th>
+            </tr>
+            <?php
+                include_once('backend/messageRepository.php');
+                $msgRepo = new messageRepository();
+                $messages = $msgRepo -> getMessagesToEdit($_SESSION["name"], $_SESSION["id"]);
+                foreach($messages as $row){
+                    echo "<tr><td>".$row["id"]."</td><td>".$row["owner"]."</td><td>".$row["message"]."</td><td><a href='?action=edit&messageId=".$row["id"]."'>Edytuj</a></td></tr>";
+                }
+            ?>
+
+        </table>
     <?php
     } else {
         include_once('backend/messageRepository.php');
