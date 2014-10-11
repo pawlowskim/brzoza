@@ -41,7 +41,7 @@ session_start();
 			    <li><a href="?action=messages">Wiadomości</a></li>
 			    <?php if(isset($_SESSION["name"])){ ?>
                     <li><a href="?action=newMessage">Nowa wiadomość</a></li>
-                    <li>Usuń wiadomość</li>
+                    <li><a href="?action=delete">Usuń wiadomość</a></li>
                     <li>Edytuj wiadomość</li>
                     <li>Nadaj uprawnienia</li>
 				<?php } ?>
@@ -54,6 +54,8 @@ session_start();
                         include("ui/newMessage.php");
                     else if($_GET["action"] == "messages")
                         include("ui/messages.php");
+                    else if($_GET["action"] == "delete")
+                        include("ui/deleteMessage.php");
                 }
             ?>
         </div>

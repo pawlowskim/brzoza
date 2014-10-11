@@ -16,5 +16,13 @@
       public function addMessage($message, $owner){
         mysql_query("insert into messages (message, owner) values ('".$message."','".$owner."')");
       }
+
+      public function getMessagesByOwner($owner){
+        return mysql_query("select * from messages where owner = '".$owner."'");
+      }
+
+      public function deleteMessage($id, $owner) {
+        mysql_query("delete from messages where id = '".$id."' and owner = '".$owner."'");
+      }
     }
 ?>
