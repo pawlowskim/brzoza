@@ -42,8 +42,8 @@ session_start();
 			    <?php if(isset($_SESSION["name"])){ ?>
                     <li><a href="?action=newMessage">Nowa wiadomość</a></li>
                     <li><a href="?action=delete">Usuń wiadomość</a></li>
-                    <li>Edytuj wiadomość</li>
-                    <li>Nadaj uprawnienia</li>
+                    <li><a href="?action=edit">Edytuj wiadomość</a></li>
+                    <li><a href="?action=privilege">Nadaj uprawnienia</a></li>
 				<?php } ?>
 			</ul>
 		</div>
@@ -56,6 +56,10 @@ session_start();
                         include("ui/messages.php");
                     else if($_GET["action"] == "delete")
                         include("ui/deleteMessage.php");
+                    else if($_GET["action"] == "privilege")
+                        include("ui/privileges.php");
+                    else if($_GET["action"] == "edit")
+                        include("ui/editMessage.php");
                 }
             ?>
         </div>
