@@ -26,9 +26,10 @@
     } else {
         include_once('backend/messageRepository.php');
         $msgRepo = new messageRepository();
-        $message = $msgRepo -> getMessagesById($_GET["messageId"]); ?>
+        $message = $msgRepo -> getMessagesById($_GET["messageId"], $_SESSION["name"], $_SESSION["id"]); ?>
 
-        <form action="backend/api.php?action=edit" method="post">
+        <form action="backend/api.php" method="get">
+			<input type="hidden" name="action" value="edit" />
             <textarea rows="10" cols="50" name="message" placeholder="Wpisz wiadomość"><?php echo $message ?></textarea>
             <input type="hidden" name="messageId" value="<?php echo $_GET["messageId"] ?>" />
             <input type="submit" name="submit"/>

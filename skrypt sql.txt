@@ -1,0 +1,21 @@
+CREATE TABLE `messages` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `message` varchar(255) COLLATE latin2_bin NOT NULL,
+ `owner` varchar(50) COLLATE latin2_bin NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin2 COLLATE=latin2_bin
+
+CREATE TABLE `privileges` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `messageId` int(11) NOT NULL,
+ `ownerId` int(11) NOT NULL,
+ `userId` int(11) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin2 COLLATE=latin2_bin
+
+CREATE TABLE `users` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(50) COLLATE latin2_bin NOT NULL,
+ `pass` varchar(50) COLLATE latin2_bin NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin2 COLLATE=latin2_bin

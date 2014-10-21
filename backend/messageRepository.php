@@ -17,6 +17,22 @@
         mysql_query("insert into messages (message, owner) values ('".$message."','".$owner."')");
       }
 
+	  public function canEdit($messageId, $username, $userId){
+		$havePrivileges = 0;
+		$isOwner = 0;
+		if($userId != null) {
+			$result = mysql_query("select id from privileges where messageId = '".$messageId."' and (userId = '".$userId."' or ownerId = '".$userId."')");
+			if($result != false)
+				$havePrivileges = mysql_num_rows($result);
+		}
+			
+		if($username != null) {
+			$result2 = mysql_query("select id from messages where owner = '".$username."' and id = '".$messageId."'");
+			if($result2 != false)
+				$isOwner = mysql_num_rows($result2);
+		}
+		return ($havePrivileges + $isOwner);
+	  }
       public function getMessagesByOwner($owner){
         return mysql_query("select * from messages where owner = '".$owner."'");
       }
@@ -25,12 +41,18 @@
         mysql_query("delete from messages where id = '".$id."' and owner = '".$owner."'");
       }
 
-      public function getMessagesById($id) {
-        return mysql_fetch_assoc(mysql_query("select message from messages where id ='".$id."'"))["message"];
+      public function getMessagesById($messageId, $username, $userId) {
+		if($this -> canEdit($messageId, $username, $userId))
+			return mysql_fetch_assoc(mysql_query("select message from messages where id ='".$messageId."'"))["message"];
+		else
+			return "";
       }
 
-      public function editMessage($id, $message) {
-        mysql_query("update messages set message = '".$message."' where id = '".$id."'");
+      public function editMessage($messageId, $message, $userId, $username) {
+		if($this -> canEdit($messageId, $username, $userId)) {
+			mysql_query("update messages set message = '".$message."' where id = '".$messageId."'");
+		}
+			
       }
 
       public function getMessagesToEdit($owner, $ownerId) {
