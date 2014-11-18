@@ -4,9 +4,6 @@ session_start();
 <html>
     <head>
     <link rel="stylesheet" type="text/css" href="style/styles.css" />
-    <style>
-
-    </style>
     </head>
     <body>
         <div id="header" class="header">
@@ -20,6 +17,7 @@ session_start();
                     <li><a href="?action=delete">Usuń wiadomość</a></li>
                     <li><a href="?action=edit">Edytuj wiadomość</a></li>
                     <li><a href="?action=privilege">Nadaj uprawnienia</a></li>
+					<li><a href="?action=account">Ustawienia konta</a></li>
 				<?php } ?>
 			</ul>
 		</div>
@@ -36,6 +34,8 @@ session_start();
                         include("ui/privileges.php");
                     else if($_GET["action"] == "edit")
                         include("ui/editMessage.php");
+					else if($_GET["action"] == "account")
+						include("ui/account.php");
                 }
             ?>
         </div>

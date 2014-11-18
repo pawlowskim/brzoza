@@ -2,13 +2,20 @@
     class messageRepository{
        function __construct() {
               $conn = mysql_connect("localhost","root","") or die(mysql_error());
-              mysql_select_db("bai",$conn);
+              mysql_select_db("bai4",$conn);
           }
 
       public function doQuery($query) {
         return mysql_query($query);
       }
 
+      public function getAccountInfo($userId){
+        return mysql_query("select * from users where id = '".$userId."'");
+      }
+      public function changeLoginMode($attempts, $new_mode, $userId) {
+		mysql_query("update users set attempts = '".$attempts."', login_mode = '".$new_mode."' where id = '".$userId."'");			
+      }
+	  
       public function getMessages(){
         return mysql_query("select * from messages");
       }

@@ -23,7 +23,9 @@
             $repo -> editMessage($_GET["messageId"], $_GET["message"], $_SESSION["id"], $_SESSION["name"]);
             header("Location: ../index.php?action=messages");
         }
-
+    }	else if($_GET["action"] == "logintype"&& isset($_GET["attempts"]) && isset($_GET["new_mode"]) && isset($_SESSION["id"])){
+        $repo -> changeLoginMode($_GET["attempts"], $_GET["new_mode"], $_SESSION["id"]);
+        header("Location: ../index.php?action=account");
     }
 
 ?>

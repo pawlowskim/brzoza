@@ -1,6 +1,6 @@
 <?php
 if(!isset($_SESSION["name"])){ ?>
-<form method="post" action="backend/login.php">
+<form method="get" action="backend/login.php">
 	<div class="message"><?php if(isset($_GET["message"])) { echo $_GET["message"]; } ?></div>
 	<table border="0" cellpadding="10" cellspacing="1" width="500">
 		<tr class="tableheader">
@@ -20,7 +20,7 @@ if(!isset($_SESSION["name"])){ ?>
 	</table>
 </form>
 <?php } else { ?>
-	<table border="0" cellpadding="10" cellspacing="1" width="500">
+	<table border="0" cellpadding="10" cellspacing="1" width="100%">
 		<tr class="tableheader">
 			<td align="center">User Dashboard</td>
 		</tr>
