@@ -10,6 +10,7 @@
     <tr>
         <th>Data ost. nieudanego logowania</th>
         <th>Data ost. udanego logowania</th>
+		<th>Liczba nieudanych logowań od ost. udanego logowania</th>
 		<th>Ilość możliwych prób logowania</th>
 		<th>Tryb logowania</th>
     </tr>
@@ -25,7 +26,7 @@
 				$login_mode = ' Logowanie z ograniczoną ilością prób ';
 			}
             echo "<tr><td align='center'>".$row["last_failed"]."</td><td align='center'>".$row["last_success"]."</td>
-			<td align='center'>".$row["attempts"]."</td><td  align='center'>".$login_mode."</td></tr>";
+			</td><td align='center'>".$row["failed"]."</td><td align='center'>".$row["attempts"]."</td><td  align='center'>".$login_mode."</td></tr>";
         }
     ?>
 </table>

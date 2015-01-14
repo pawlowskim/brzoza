@@ -1,0 +1,15 @@
+1. Logowanie u¿ytkownika user2:
+
+http://localhost/ps4/backend/login.php?userName=user2&password=user2&submit=Submit
+
+
+---------------------------------------------------------------------------------------------------
+
+2. Zmiana opcji logowania:
+
+http://localhost/ps4/backend/api.php?action=logintype&attempts=5&new_mode=1&id=1&submit=Zapisz
+
+
+’ OR ‘1’=‘1
+
+http://localhost/ps4/backend/login.php?userName=adsafa’ OR ‘1’=‘1&password=aedafd’ OR ‘1’=‘1&submit=Submit
