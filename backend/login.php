@@ -50,7 +50,7 @@ if(count($_GET)>0) {
 			$attempts_left = ($row2["attempts"] - $row2["failed"])-1;
 				if($attempts_left !=0){
 					$sec = checkTime($failedDate, $row2["failed"]+1);
-					$message = "Podano nieprawidłowy login lub hasło!! pozostało Ci ".$attempts_left." logowan. Spróbuj ponownie za ".$sec." sec";
+					$message = "Podano nieprawidłowy login lub hasło!! Spróbuj ponownie za ".$sec." sec";
 				} else {
 					mysql_query("update users set state = 0, failed = failed where name ='".$_GET["userName"]."'");
 					$message = "Twoje konto zostało zablokowane. Skontaktuj się z administratorem.";				
@@ -63,11 +63,14 @@ if(count($_GET)>0) {
 		} else if (!is_array($row2)){
 			$result3 = mysql_query("SELECT * FROM false_users WHERE name='".$_GET["userName"]."'");
 			$row3  = mysql_fetch_array($result3);
-			
-			if (is_array($row3)){
-			$sec1 = checkTime($row3["last_failed"], $row3["failed"]);
+			if (is_array($row3) && checkTime($row3["last_failed"], $row3["failed"]) == 0){
+				$failedDate = $created_date;
+				$sec1 = checkTime($failedDate, $row3["failed"]);
 				$message = "Twoje konto jest obecnie niedostępne. Spróbuj ponowić logowanie za ".$sec1." sec";
-				mysql_query("update false_users set failed = failed+1 where name ='".$_GET["userName"]."'");
+				mysql_query("update false_users set failed = failed+1, last_failed = '".$failedDate."' where name ='".$_GET["userName"]."'");				
+			} else if(is_array($row3) && checkTime($row3["last_failed"], $row3["failed"]) != 0) {
+			$sec1 = checkTime($row3["last_failed"], $row3["failed"]);
+			$message = "Twoje konto jest obecnie niedostępne. Spróbuj ponowić logowanie za " .$sec1." sec"; 
 			} else if (!is_array($row3)){
 				$salt = uniqid(mt_rand(), true);
 				mysql_query("insert into false_users (`name`, `pass`, `login_mode`, `failed`, `last_failed`) 
